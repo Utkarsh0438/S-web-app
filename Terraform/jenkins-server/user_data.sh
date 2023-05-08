@@ -9,10 +9,17 @@ sudo wget -O /etc/yum.repos.d/jenkins.repo \
     https://pkg.jenkins.io/redhat-stable/jenkins.repo
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
 sudo yum upgrade -y
-sudo amazon-linux-extras install java-openjdk11 -y
-sudo dnf install java-11-amazon-corretto -y
+sudo amazon-linux-extras install java-openjdk11 -y 
 sudo yum install jenkins -y
 sudo systemctl daemon-reload
+
+# Enable jenkins to run on boot
+sudo systemctl enable jenkins
+
+
+# Start Jenkins
+sudo systemctl start jenkins
+
 
 
 # Install Docker
@@ -21,12 +28,6 @@ sudo service docker start
 sudo usermod -a -G docker ec2-user
 sudo chmod 666 /var/run/docker.sock
 
-
-# Enable jenkins to run on boot
-sudo systemctl enable jenkins
-
-# Start Jenkins
-sudo systemctl start jenkins
 
 # Enable Docker to run on boot
 sudo systemctl enable docker
