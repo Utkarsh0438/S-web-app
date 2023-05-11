@@ -1,18 +1,27 @@
+
+
+
 #! /bin/bash
 sudo yum update -y
 
 # Install Git
 sudo yum install -y git
 
-# Install Jenkins
+# sudo echo "git install" >> shellstatus.txt
+
+# # Install Jenkins
 sudo wget -O /etc/yum.repos.d/jenkins.repo \
     https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
 sudo yum upgrade -y
 sudo amazon-linux-extras install java-openjdk11 -y 
 sudo yum install jenkins -y
 sudo systemctl daemon-reload
 
+# echo "java & jenkins installed install" >> shellstatus.txt
 # Enable jenkins to run on boot
 sudo systemctl enable jenkins
 
@@ -20,6 +29,7 @@ sudo systemctl enable jenkins
 # Start Jenkins
 sudo systemctl start jenkins
 
+sudo echo "jenkins started" >> shellstatus.txt
 
 
 # Install Docker
@@ -43,6 +53,9 @@ sudo mkdir /var/lib/jenkins/opt
 sudo chown jenkins /var/lib/jenkins/opt
 sudo chgroup jenkins /var/lib/jenkins/opt
 
+sudo echo "docker installed " >> shellstatus.txt
+
+
 # Download and install arachni as jenkins user
 wget https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz 
 tar -zxf arachni-1.5.1-0.5.12-linux-x86_64.tar.gz 
@@ -57,6 +70,9 @@ sudo /bin/bash -c "echo ${repository_test_url} > /var/lib/jenkins/opt/repository
 sudo /bin/bash -c "echo ${repository_staging_url} > /var/lib/jenkins/opt/repository_staging_url"
 sudo /bin/bash -c "echo ${instance_id} > /var/lib/jenkins/opt/instance_id"
 sudo /bin/bash -c "echo ${bucket_logs_name} > /var/lib/jenkins/opt/bucket_name"
+
+sudo echo "Save the instance_id, repositories urls and bucket name to use in the pipeline" >> shellstatus.txt
+
 
 # Change ownership and group of these files
 sudo chown -R jenkins /var/lib/jenkins/opt/
@@ -83,12 +99,18 @@ export remote="${remote_repo}"
 export jobName="${job_name}"
 export jobID="${job_id}"
 
+sudo echo "DEFINE THE GLOBAL VARIABLES" >> shellstatus.txt
+
+
 #---------------------------------------------#
 #-----> COPY THE CONFIG FILES FROM S3 <-------#
 #---------------------------------------------#
 
 sudo aws s3 cp s3://${bucket_config_name}/ ./ --recursive
 sudo chmod +x *.sh
+
+sudo echo "COPY THE CONFIG FILES FROM S3" >> shellstatus.txt
+
 
 #---------------------------------------------#
 #----------> RUN THE CONFIG FILES  <----------#
@@ -111,4 +133,8 @@ python -c "import sys;import json;print(json.loads(raw_input())['credentials'][0
 
 sudo rm *.sh credentials_id
 
+sudo echo "system is reboot" >> shellstatus.txt
+
 reboot
+
+sudo echo "system is rebooted" >> shellstatus.txt
