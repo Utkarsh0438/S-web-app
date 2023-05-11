@@ -21,16 +21,16 @@ pipeline {
         }
       }
     }
-    stage("Run Unit Tests") {
-      steps {
-        echo 'Run unit tests in the docker image'
-        script {
-          sh """
-          echo "Hello World"
-          """
-        }
-      }
-    }
+    // stage("Run Unit Tests") {
+    //   steps {
+    //     echo 'Run unit tests in the docker image'
+    //     script {
+    //       sh """
+    //       echo "Hello World"
+    //       """
+    //     }
+    //   }
+    // }
     stage("Run Integration Tests") {
       steps {
         echo 'Run Integration tests in the docker image'

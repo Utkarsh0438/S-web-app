@@ -24,8 +24,6 @@ sudo systemctl enable jenkins
 # Start Jenkins
 sudo systemctl start jenkins
 
-# sudo echo "jenkins started" >> shellstatus.txt
-
 
 # Install Docker
 sudo yum -y install docker
