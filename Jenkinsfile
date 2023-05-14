@@ -41,16 +41,16 @@ pipeline {
         }
       }
     }
-    stage("Build Staging Image") {
-      steps {
-        echo 'Build the staging image for more tests'
-        script {
-          sh """
-          echo "Hello World"
-          """
-        }
-      }
-    }
+    // stage("Build Staging Image") {
+    //   steps {
+    //     echo 'Build the staging image for more tests'
+    //     script {
+    //       sh """
+    //       echo "Hello World"
+    //       """
+    //     }
+    //   }
+    // }
     stage("Run Load Balancing tests / Security Checks") {
       steps {
         echo 'Run load balancing tests and security checks'
