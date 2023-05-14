@@ -11,16 +11,16 @@ pipeline {
         }
       }
     }
-    // stage("Build Test Image") {
-    //   steps {
-    //     echo 'Start building the project docker image for tests'
-    //     script {
-    //       sh """
-    //       echo "Hello World"
-    //       """
-    //     }
-    //   }
-    // }
+    stage("Build Test Image") {
+      steps {
+        echo 'Start building the project docker image for tests'
+        script {
+          sh """
+          echo "Hello World"
+          """
+        }
+      }
+    }
     stage("Run Unit Tests") {
       steps {
         echo 'Run unit tests in the docker image'
