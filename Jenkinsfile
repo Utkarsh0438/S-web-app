@@ -1,3 +1,22 @@
+
+def testImage
+def stagingImage
+def productionImage
+def REPOSITORY
+def REPOSITORY_TEST
+def RESPOSITORY_STAGING
+def GIT_COMMIT_HASH
+def INSTANCE_ID
+def ACCOUNT_REGISTRY_PREFIX
+def S3_LOGS
+def DATE_NOW
+def SLACK_TOKEN
+def CHANNEL_ID = "C023LPN5LE5"
+
+
+// VARIABLE = sh (script: "echo 'hello'", returnStdout: true)
+
+
 pipeline {
   agent any
   stages {
@@ -14,10 +33,16 @@ pipeline {
     stage("Build Test Image") {
       steps {
         echo 'Start building the project docker image for tests'
-        script {
-          sh """
-          echo "Hello World"
-          """
+        
+        script{
+          // Set environment variables
+          GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
+          REPOSITORY = sh (script: "cat \$HOME/opt/repository_url", returnStdout: true)
+          REPOSITORY_TEST = sh (script: "cat \$HOME/opt/repository_test_url", returnStdout: true)
+          REPOSITORY_STAGING = sh (script: "cat \$HOME/opt/repository_staging_url", returnStdout: true)
+          INSTANCE_ID = sh (script: "cat \$HOME/opt/instance_id", returnStdout: true)
+          S3_LOGS = sh (script: "cat \$HOME/opt/bucket_name", returnStdout: true)
+          DATE_NOW = sh (script: "date +%Y%m%d", returnStdout: true)
         }
       }
     }
